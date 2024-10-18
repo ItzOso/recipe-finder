@@ -20,7 +20,7 @@ function App() {
   }, [favorites]);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/recipe-app">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
