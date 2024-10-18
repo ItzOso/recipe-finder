@@ -15,7 +15,7 @@ function SearchInput() {
   return (
     <form onSubmit={searchRecipes}>
       <input
-        className="w-[600px] bg-gray-300 rounded-xl px-4 py-3 text-base outline-none"
+        className="w-full bg-gray-300 rounded px-4 py-3 text-base outline-none"
         type="text"
         placeholder="Search for a recipe..."
         value={search}

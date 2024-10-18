@@ -17,7 +17,9 @@ function SearchResults() {
       exit={{ opacity: 0 }} // Exit state
       transition={{ duration: 0.5 }} // Transition duration
     >
-      <SearchInput />
+      <div className="w-full max-w-md">
+        <SearchInput />
+      </div>
       <p className="text-2xl font-semibold pb-4 mt-4">
         Here are the recipes we found for {query}...
       </p>

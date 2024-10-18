@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { FavoritesContext } from "../context/FavoritesContext";
 import { motion } from "framer-motion";
 import RecipeCard from "../components/RecipeCard";
+import { doc } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
 
 const FavoritesPage = () => {
-  const { favorites, setFavorites } = useContext(FavoritesContext);
+  const { favorites } = useContext(FavoritesContext);
 
   return (
     <motion.div

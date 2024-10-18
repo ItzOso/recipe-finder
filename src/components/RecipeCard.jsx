@@ -11,7 +11,8 @@ function RecipeCard({ id, title, image }) {
   return (
     <motion.div
       key={id}
-      className="border border-gray-200 rounded-lg shadow-md overflow-hidden"
+      onClick={() => navigate(`/recipe/${id}`)}
+      className="border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer"
       whileHover={{ scale: 1.05 }} // Scale up on hover
       transition={{ type: "tween", stiffness: 300 }} // Transition properties
     >
@@ -24,12 +25,7 @@ function RecipeCard({ id, title, image }) {
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2 truncate">{title}</h2>
         <motion.div>
-          <Link
-            to={`/recipe/${id}`}
-            className="text-primary hover:text-primary-dark"
-          >
-            View Recipe
-          </Link>
+          <p className="text-primary hover:text-primary-dark">View Recipe</p>
         </motion.div>
       </div>
     </motion.div>

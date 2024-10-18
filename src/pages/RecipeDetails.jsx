@@ -5,6 +5,10 @@ import RecipeCard from "../components/RecipeCard";
 import useRecipeDetails from "../hooks/useRecipeDetails";
 import { FavoritesContext } from "../context/FavoritesContext";
 import { motion } from "framer-motion";
+import { AuthContext } from "../context/AuthContext";
+import { doc } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
+import { addFavorite, removeFavorite } from "../firebase/favorites";
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -15,14 +19,23 @@ function RecipeDetails() {
   const { favorites, setFavorites } = useContext(FavoritesContext);
   const exists = favorites.some((favorite) => favorite.id == id);
 
-  const addFavorite = () => {
-    if (!exists) {
+  const { currentUser } = useContext(AuthContext);
+
+  const handleAddFavorite = async () => {
+    if (!exists && currentUser) {
+      await addFavorite(currentUser.uid, details);
       setFavorites([...favorites, details]);
     }
   };
-  const removeFavorite = () => {
-    const filteredFavorites = favorites.filter((favorite) => favorite.id != id);
-    setFavorites(filteredFavorites);
+  const handleRemoveFavorite = async () => {
+    if (exists && currentUser) {
+      await removeFavorite(currentUser.uid, details);
+
+      const filteredFavorites = favorites.filter(
+        (favorite) => favorite.id != id
+      );
+      setFavorites(filteredFavorites);
+    }
   };
 
   return (
@@ -67,7 +80,7 @@ function RecipeDetails() {
             <ul className="list-none">
               {details.extendedIngredients &&
                 details.extendedIngredients.map((ingredient, index) => (
-                  <li>
+                  <li key={ingredient.id}>
                     <input type="checkbox" id="ingredient2" />
                     <label className="ml-2" htmlFor="ingredient2">
                       {`${ingredient.amount} ${ingredient.unit} ${ingredient.name}`}
@@ -89,14 +102,14 @@ function RecipeDetails() {
           {/* Save to Favorites Button */}
           {exists ? (
             <button
-              onClick={removeFavorite}
+              onClick={handleRemoveFavorite}
               className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
             >
               Remove from Favorites
             </button>
           ) : (
             <button
-              onClick={addFavorite}
+              onClick={handleAddFavorite}
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
             >
               Save to Favorites

@@ -6,6 +6,10 @@ import SearchResults from "./pages/SearchResults";
 import RecipeDetails from "./pages/RecipeDetails";
 import FavoritesPage from "./pages/FavoritesPage";
 import { FavoritesContext } from "./context/FavoritesContext";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 
 function App() {
   const { favorites, setFavorites } = useContext(FavoritesContext);
@@ -20,9 +24,46 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/results/:query" element={<SearchResults />} />
-        <Route path="/recipe/:id" element={<RecipeDetails />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route
+          path="/results/:query"
+          element={
+            <ProtectedRoute>
+              <SearchResults />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recipe/:id"
+          element={
+            <ProtectedRoute>
+              <RecipeDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <FavoritesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="signup"
+          element={
+            <RedirectIfAuthenticated>
+              <Signup />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="login"
+          element={
+            <RedirectIfAuthenticated>
+              <Login />
+            </RedirectIfAuthenticated>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
